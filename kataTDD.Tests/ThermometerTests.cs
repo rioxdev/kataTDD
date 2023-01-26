@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using kataTDD.Tests.TestData;
+using Xunit;
 
 namespace kataTDD.Tests
 {
@@ -15,6 +16,15 @@ namespace kataTDD.Tests
             yield return new object[] { new int[] { -11 }, 11 };
         }
 
+        public static TheoryData<int[], int> CreateTheroyData()
+        {
+            return new TheoryData<int[], int>()
+            {
+                { new int[] { 1,2} , 1 },
+                { new int[]  {-3,4,-7 },-3 }
+            };
+        }
+
         [Theory]
         [MemberData(nameof(CreateParameters))]
         public void ThermometerShouldReturnsTempCloseToZero(int[] temperatures, int expected)
@@ -24,12 +34,26 @@ namespace kataTDD.Tests
         }
 
         [Theory]
-        [ClassData(typeof(ThermometerTestData))]    
+        [ClassData(typeof(ThermometerTestData))]
         public void ThermometerGivenTestDataShouldReturnsTempCloseToZero(int[] temperatures, int expected)
         {
             var temperature = Thermometer.GetCloseToZero(temperatures);
             temperature.Should().Be(expected);
         }
-             
+
+        [Theory, MemberData(nameof(CreateTheroyData))]
+        public void ThermometerGivenTheroryDataShouldReturnsTempCloseToZero(int[] temperatures, int expected)
+        {
+            var temperature = Thermometer.GetCloseToZero(temperatures);
+            temperature.Should().Be(expected);
+        }
+
+
+        [Theory, ClassData(typeof(StronglyTypedTestData))]
+        public void ThermometerGivenStronglyTypedTestDataShouldReturnsTempCloseToZero(int[] temperatures, int expected)
+        {
+            var temperature = Thermometer.GetCloseToZero(temperatures);
+            temperature.Should().Be(expected);
+        }
     }
 }
