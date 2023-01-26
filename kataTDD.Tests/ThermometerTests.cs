@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
+using kataTDD.Tests.TestData;
 
 namespace kataTDD.Tests
 {
@@ -27,5 +23,13 @@ namespace kataTDD.Tests
             temperature.Should().Be(expected);
         }
 
+        [Theory]
+        [ClassData(typeof(ThermometerTestData))]    
+        public void ThermometerGivenTestDataShouldReturnsTempCloseToZero(int[] temperatures, int expected)
+        {
+            var temperature = Thermometer.GetCloseToZero(temperatures);
+            temperature.Should().Be(expected);
+        }
+             
     }
 }
